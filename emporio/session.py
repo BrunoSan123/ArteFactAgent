@@ -41,6 +41,7 @@ class Sessao:
         caminho = self._caminho(pasta, self.id)
         dados = {"id": self.id, "turnos": [t.__dict__ for t in self.turnos]}
         caminho.write_text(json.dumps(dados, ensure_ascii=False, indent=2), encoding="utf-8")
+        caminho.with_suffix(".txt").write_text(self.para_texto(), encoding="utf-8")  # cópia legível
         return caminho
 
     @staticmethod
@@ -62,5 +63,17 @@ class Sessao:
             if t.tools:
                 linhas.append("")
             linhas.append(f"**Téo:** {t.assistente}")
+            linhas.append("")
+        return "\n".join(linhas).rstrip() + "\n"
+
+    def para_texto(self) -> str:
+        linhas = [f"Conversa {self.id}", "=" * 40, ""]
+        for t in self.turnos:
+            if t.quando:
+                linhas.append(f"[{t.quando}]")
+            linhas.append(f"Cliente: {t.cliente}")
+            for c in t.tools:
+                linhas.append(f"  (ferramenta: {c['nome']}({json.dumps(c['args'], ensure_ascii=False)}))")
+            linhas.append(f"Téo: {t.assistente}")
             linhas.append("")
         return "\n".join(linhas).rstrip() + "\n"
