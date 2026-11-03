@@ -1,0 +1,3 @@
+Coloque aqui os CSVs da loja (produtos, clientes, pedidos, itens de pedido, categorias e promocoes).
+O nome do arquivo precisa conter: product/produto, customer/cliente, order/pedido, item, categor, promo.
+O arquivo políticas_da_loja.pdf também fica nesta pasta.

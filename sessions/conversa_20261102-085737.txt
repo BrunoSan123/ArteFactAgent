@@ -1,0 +1,24 @@
+Conversa 20261102-085737
+========================================
+
+[02/11/2026 08:57:44]
+Cliente: Bom dia
+Téo: Olá! Bom dia! 🎸
+
+Sou o Téo, assistente virtual da Empório da Música. Sua música começa aqui! Como posso te ajudar hoje?
+
+[02/11/2026 08:57:59]
+Cliente: Quais produtos se vende aqui?
+Téo: Aqui na Empório da Música, nós vendemos exclusivamente instrumentos musicais! 🎶
+
+Você está procurando algum instrumento específico? Posso te ajudar a encontrar!
+
+[02/11/2026 08:58:20]
+Cliente: Quero uma havaiana
+Téo: Ah, entendi! A Empório da Música vende apenas instrumentos musicais. Havaianas (chinelos) não fazem parte do nosso catálogo. 😊
+
+Você estaria procurando algum instrumento musical? Posso te ajudar com isso!
+
+[02/11/2026 08:58:38]
+Cliente: Obrigado era só isso.
+Téo: De nada! Se precisar de algo relacionado a instrumentos musicais, é só chamar! Tenha um ótimo dia! 😊

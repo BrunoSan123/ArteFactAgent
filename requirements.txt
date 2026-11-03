@@ -1,0 +1,7 @@
+google-genai>=1.0
+pypdf>=5.0
+pandas>=2.0
+numpy>=1.26
+python-dotenv>=1.0
+tzdata
+pytest>=8.0
