@@ -289,53 +289,7 @@ order does not exist or the e-mail does not match, so it does not reveal whether
 
 ---
 
-## 5. Assumptions about the policy manual
 
-The manual (v2.1) has contradictory or ambiguous points. Instead of letting the model choose in each
-conversation, each decision is written into the prompt:
-
-| Point | What the manual says | Decision |
-|---|---|---|
-| Phone | `(67) 3341-4444` (cover and table) × WhatsApp `(67) 3321-4500` (section 7) | 3341-4444 as the store phone and 3321-4500 as WhatsApp. Worth confirming with the store. |
-| E-mail | `contato@emporiodamusica.com.br` × `contato@empóriodamusica.com.br` | The version without the accent (the one on the cover). |
-| Defect × warranty | 4.2: exchange for defects within 30 days, afterwards only via the manufacturer. 8.1: 90-day legal warranty | Up to 30 days from purchase: exchange. From 31 to 90 days from receipt: legal warranty, neither denied nor promised, with **forwarding** to the team. After that: manufacturer. |
-| Installments | Table: "up to 12x, minimum R$ 100". 3.1: tiers of 3x, 4–6x and 7–12x | The detail in 3.1 prevails. "Except below R$ 50" was read as a minimum installment of R$ 50 up to 3x. |
-| Right of withdrawal | Section 4.1 applies only to **online** purchases | The agent asks for the channel (the data does not provide it) and checks the 7-day window. In-store purchase: no promise, forwards to the team. |
-| Shipping to other cities | "Calculated by postal code" | The agent cannot calculate it, so it does not estimate: it explains and forwards. |
-| Promotions | The manual mentions campaigns (Black Friday etc.) | Only what the data marks as **active today** counts; an inactive promotion is stated as inactive. PIX does not stack with promotional prices. |
-| Partner stores | "Suggest partner stores when possible" | There is no list; the agent does not invent names. |
-
----
-
-## 6. Data handling
-
-| Problem | Handling |
-|---|---|
-| Files and columns in English or Portuguese | Alias table per column; a clear error listing the columns found if a required one is missing |
-| Corrupted accents (`ViolÃ£o`) | Detected and repaired on read; also accepts `utf-8` and `latin-1`, `,` or `;` separator |
-| Price as `599.9`, `R$ 1.299,90` or `1.299` | `parse_dinheiro`; math with `Decimal` and commercial rounding (599.90 − 15% = R$ 509.92) |
-| ISO and `dd/mm/yyyy` dates | Parsed separately (with `dayfirst`, pandas swaps month and day in ISO dates) |
-| Category only as `category_id` | Join with `categories` |
-| Order items in another table | Join `order_items` × `products` |
-| Brand only inside the name | The brand filter searches the name |
-| `specs` as JSON and long `description` | JSON becomes a dictionary; description and specs go to the model only for up to 3 results, and are searched when the name does not match |
-| Product `status` and stock | `descontinuado`, `em_breve` and `disponivel` computed separately: out of stock, removed from the catalog and not yet launched are different cases |
-| Status and payment in English | Translated in code ("entregue", "cartão de crédito em 6x") |
-
-**Inconsistencies found in the dataset** (`python main.py --checar-dados` lists the ones detectable by rule):
-
-| Finding | How the agent handles it |
-|---|---|
-| Product 130 `coming_soon` with 2 units in stock | Not on sale yet: does not confirm availability or promise a date |
-| Product 136 `discontinued` with 13 units in stock | Unavailable: says it left the catalog and suggests equivalents |
-| Name × description × specs disagree for several products (e.g. "Yamaha Bass 3X" described as a 5-string Ibanez, with `strings: 4`) | The name is the source of brand and model; when they disagree, the agent does not state the doubtful detail and offers to confirm |
-| E-mail `bruno.martins@jmail.com` repeated on customers 11 and 43 | Verification compares against the order owner's e-mail; the duplicate is flagged |
-| Totals of orders 3 and 20 differ from the sum of their items at current prices | The agent reports the recorded total and does not recompute |
-| Promotions without dates, only `is_active` (4 active out of 25) | The flag rules; the agent does not invent an end date |
-| Orders without purchase channel and without actual delivery date | The agent asks for the channel and uses the estimated delivery date as an approximation, telling the customer |
-| The manual mentions "more than 300 instruments"; the dataset has 65, with no wind or orchestral string instruments | The agent does not state the catalog size; an empty search becomes "I did not find it in the current catalog" |
-
----
 
 ## 7. Example conversations
 
